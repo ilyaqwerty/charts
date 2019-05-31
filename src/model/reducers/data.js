@@ -19,6 +19,6 @@ export default function (state, action) {
                 fetching: false,
             };
         default: 
-            return {...state};
+            return state;
     }
 }

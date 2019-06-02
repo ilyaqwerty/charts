@@ -1,18 +1,17 @@
+export function get (url, data, ...rest) {
+  console.log('GET', url, data, rest)
 
-export function get(url, data, ...rest){
-    console.log('GET', url, data, rest)
+  const GET = {
+    method: 'GET'
+  }
 
-    const GET = {
-        method: 'GET',
-    };
-
-    return fetch(url, GET)
+  return fetch(url, GET)
     .then(res => {
-        console.log(res)
-        return res
+      console.log(res)
+      return res
     })
     .catch(e => {
-        console.log(e)
-        throw e
+      console.log(e)
+      throw e
     })
 }

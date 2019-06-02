@@ -1,3 +1,3 @@
 import data from './data'
 
-export {data}
+export { data }

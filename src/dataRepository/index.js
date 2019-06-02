@@ -9,6 +9,7 @@ export default class Data {
   constructor () {
     this.isTfetched = false
     this.isPfetched = false
+    this.worker = new Worker('worker.js')
   }
 
   getTemperature (yearFrom = 1881, yearTo = 2006) {
@@ -19,6 +20,9 @@ export default class Data {
       return get(TEMPERATURE_PATH)
         .then(data => {
           //set data to indexedDB
+          this.worker.postMessage(data);
+          console.log('Message posted to worker');
+          this.isTfetched = true
         })
     }
   }

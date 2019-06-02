@@ -8,7 +8,7 @@ export function get (url, data, ...rest) {
   return fetch(url, GET)
     .then(res => {
       console.log(res)
-      return res
+      return res.json()
     })
     .catch(e => {
       console.log(e)

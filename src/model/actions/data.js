@@ -1,19 +1,18 @@
 import { dispatch } from '../store'
+import Data from '../../dataRepository'
 
 export const GET_DATA_START = 'GET_DATA_START'
 export const GET_DATA_OK = 'GET_DATA_OK'
 export const GET_DATA_ERR = 'GET_DATA_ERR'
 
-const someAsyncFunction = async () => {
-  return await new Promise(r => setTimeout(r, 1000))
-}
+const D = new Data()
 
-export function dataActionCreator () {
+export function getTemperature () {
   dispatch({
     type: GET_DATA_START
   })
 
-  return someAsyncFunction()
+  return D.getTemperature()
     .then(data => {
       return dispatch({
         type: GET_DATA_OK,

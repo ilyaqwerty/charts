@@ -1,12 +1,23 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { getTemperature } from '../../model/actions'
 
 class Root extends Component {
+  constructor (props) {
+    super(props)
+    getTemperature()
+  }
+
   render () {
-    return <>
-      lksndfsd
+    const {
+      data
+    } = this.props
+    return data.fetching ? <>
+      loading
+    </> : <>
+      loaded
     </>
   }
 }
 
-export default connect(({ connection }) => ({ connection }))(Root)
+export default connect(({ data }) => ({ data }))(Root)

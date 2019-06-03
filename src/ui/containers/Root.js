@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { getTemperature } from '../../model/actions'
+import { getTemperature, getPrecipitation } from '../../model/actions'
 
 class Root extends Component {
   constructor (props) {
     super(props)
     getTemperature()
+      .then(console.log)
   }
 
   render () {

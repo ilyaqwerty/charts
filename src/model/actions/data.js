@@ -26,3 +26,23 @@ export function getTemperature () {
       })
     })
 }
+
+export function getPrecipitation () {
+  dispatch({
+    type: GET_DATA_START
+  })
+
+  return D.getPrecipitation()
+    .then(data => {
+      return dispatch({
+        type: GET_DATA_OK,
+        data
+      })
+    })
+    .catch(e => {
+      return dispatch({
+        type: GET_DATA_ERR,
+        data: e
+      })
+    })
+}

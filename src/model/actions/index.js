@@ -1,3 +1,3 @@
-import { getTemperature } from './data'
+import { getTemperature, getPrecipitation } from './data'
 
-export { getTemperature }
+export { getTemperature, getPrecipitation }

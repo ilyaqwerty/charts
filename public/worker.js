@@ -106,6 +106,8 @@ class DB {
   }
 
   getData (yearFrom = 1881, yearTo = 2006, table = 'Temperature') {
+    const keyFrom = `${yearFrom}01`,
+      keyTo = `${yearTo}12`
     const request = this.db.transaction(table, 'readonly').objectStore(table).getAll()
     return new Promise((resolve, reject) => {
       request.onsuccess = e => {

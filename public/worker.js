@@ -2,18 +2,17 @@ onmessage = async function (e) {
   const {
     type
   } = e.data
+
+  const db = new DB()
+  await db.init()
+
   switch (type) {
     case 'init': {
-      const db = new DB()
-      await db.init()
-      if (db.isDataExist) {
-        postMessage('success')
-      } else {
+      if (!db.isDataExist) {
         const {
           tPath,
         } = e.data
         const data = await get(tPath)
-        postMessage(data)
         db.setData(data)
       }
       break
@@ -25,7 +24,8 @@ onmessage = async function (e) {
         yearTo
       } = e.data
       console.log('getTemperature', yearFrom, yearTo)
-      postMessage('sdfds')
+      const data = await db.getData()
+      postMessage(data)
       break
     }
 
@@ -92,14 +92,24 @@ class DB {
   }
 
   setData (data, table = 'Temperature') {
+    const request = this.db.transaction(table, 'readwrite').objectStore(table)
     return new Promise((resolve, reject) => {
-      const request = this.db.transaction(table, 'readwrite').objectStore(table)
       for (let i in data) {
         request.add(data[i])
       }
-      this.request.onsuccess = e => resolve(this.onSuccess(e, 'set data'))
+      request.onsuccess = e => resolve(this.onSuccess(e, 'set data'))
 
-      this.request.onerror = e => reject(this.onError(e, 'set data'))
+      request.onerror = e => reject(this.onError(e, 'set data'))
+    })
+  }
+
+  getData (yearFrom = 1881, yearTo = 2006, table = 'Temperature') {
+    const request = this.db.transaction(table, 'readonly').objectStore(table).getAll()
+    return new Promise((resolve, reject) => {
+      request.onsuccess = e => {
+        resolve(e.target.result)
+      }
+      request.onerror = e => reject(this.onError(e, 'set data'))
     })
   }
 }

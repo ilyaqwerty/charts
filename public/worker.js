@@ -1,8 +1,9 @@
+importScripts('util.js')
+
 onmessage = async function (e) {
   const {
     type
   } = e.data
-
   const db = new DB()
   await db.init()
 
@@ -13,6 +14,7 @@ onmessage = async function (e) {
           tPath,
         } = e.data
         const data = await get(tPath)
+          .then(formatData)
         db.setData(data)
       }
       break
@@ -72,8 +74,8 @@ class DB {
       this.request.onupgradeneeded = e => {
         this.isDataExist = false
         this.db = e.target.result
-        this.db.createObjectStore('Temperature', { keyPath: 't' })
-        this.db.createObjectStore('Precipitation', { keyPath: 't' })
+        this.db.createObjectStore('Temperature', )
+        this.db.createObjectStore('Precipitation', )
       }
 
       this.request.onsuccess = e => resolve(this.onSuccess(e))
@@ -94,8 +96,8 @@ class DB {
   setData (data, table = 'Temperature') {
     const request = this.db.transaction(table, 'readwrite').objectStore(table)
     return new Promise((resolve, reject) => {
-      for (let i in data) {
-        request.add(data[i])
+      for (let key in data) {
+        request.add(data[key], key)
       }
       request.onsuccess = e => resolve(this.onSuccess(e, 'set data'))
 

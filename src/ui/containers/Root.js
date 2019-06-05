@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { getTemperature, getPrecipitation } from '../../model/actions'
+import { getTemperature, getPrecipitation, initializeDB } from '../../model/actions'
 
 class Root extends Component {
   constructor (props) {
     super(props)
-    getTemperature()
+    initializeDB()
       .then(console.log)
   }
 

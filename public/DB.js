@@ -11,9 +11,9 @@ class DB {
       this.request.onupgradeneeded = e => {
         this.isDataExist = false
         this.db = e.target.result
-        /*const t = this.db.createObjectStore('Temperature')
+        const t = this.db.createObjectStore('Temperature')
         const p = this.db.createObjectStore('Precipitation')
-        t.createIndex('year', 'year', { unique: false })
+        /*t.createIndex('year', 'year', { unique: false })
         p.createIndex('year', 'year', { unique: false })*/
       }
 

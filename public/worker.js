@@ -18,6 +18,7 @@ onmessage = async function (e) {
           .then(formatData)
         db.setData(data)
       }
+      postMessage(await db.getAllData())
       break
     }
 

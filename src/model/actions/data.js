@@ -12,7 +12,6 @@ export const GET_DATA_ERR = 'GET_DATA_ERR'
 const D = new Data()
 
 export function initializeDB () {
-
   dispatch({
     type: INIT_START
   })

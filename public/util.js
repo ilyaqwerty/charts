@@ -25,18 +25,27 @@ function formatData (data) {
       month = currentMonth
     }
   })
+  mappedData['200612'] = getAverage(mappedData['200612'])
   return mappedData
 }
 
-function uniformStep (data, step = 120) {
+function uniformStep (data, step = 12) {
   return data.reduce((acc, value, index) => {
-    if (index === 0 || index % step === 0) {
-      acc.push(value)
+    if (Array.isArray(value)) {
+      console.log(index)
+    }
+    if (index < step) {
+      acc.push([value])
       return acc
     } else {
+      acc[index % step].push(value)
       return acc
     }
   }, [])
+    .reduce((acc, value) => {
+      acc.push(getAverage(value))
+      return acc
+    }, [])
 }
 
 function getAverage (data) {

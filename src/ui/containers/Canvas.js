@@ -11,8 +11,12 @@ export default class Canvas extends Component {
   }
 
   render () {
+    const {
+      width,
+      height
+    } = this.props
     console.log('CANVAS RENDER', this.props.data)
-    return <canvas ref="canvas" width="600" height="400">
+    return <canvas ref="canvas" width={width} height={height}>
       rdxctfvygbhnj
     </canvas>
   }

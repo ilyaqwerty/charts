@@ -3,9 +3,36 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { getTemperature, getPrecipitation, initializeDB } from '../../model/actions'
 import Canvas from './Canvas'
+import Form from './Form'
 
 const StyledButton = styled.button`
-  font-weight: ${props => props.active ? '700' : 'inherit'}
+  outline: none;
+  display: inline-block;
+  padding: .5em 1em;
+  margin: 5px;
+  white-space: nowrap;
+  vertical-align: middle;
+  text-align: center;
+  cursor: pointer;
+  color: black;
+  border-radius: 4px;
+  font-weight: ${props => props.active ? '700' : 'inherit'};
+  background: ${props => props.active ? '#A5C383' : 'transparent'};
+  &:hover{ 
+    background-image: linear-gradient(transparent,rgba(0,0,0,.05) 40%,rgba(0,0,0,.1));
+  }
+`
+const Wrap = styled.div`
+  width: inherit;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+`
+
+const Container = styled.div`
+  width: inherit;
+  display: flex;
+  justify-content: center;
 `
 
 const Button = props => {
@@ -31,39 +58,61 @@ class Root extends Component {
       })
   }
 
-  shouldComponentUpdate (nextProps, nextState) {
-    const {
-      data: oldData
-    } = this.state
-    const {
-      data
-    } = nextState
-
-    return oldData !== data
-  }
-
   onClick = (type) => {
     const {
-      dataType,
       yearFrom,
       yearTo
     } = this.state
-    // console.log('onClick')
+    let yF = yearFrom
+    let yT = yearTo
+    if (yearFrom < 1881) {
+      yF = 1881
+    }
+
+    if (yearTo > 2006) {
+      yT = 2006
+    }
+
+    if (yearTo < yearFrom) {
+      yT = yF
+    }
+
     if (type === 'Temperature') {
-      getTemperature(yearFrom, yearTo)
+      getTemperature(yF, yT)
         .then(res => {
-          this.setState({ dataType: type, data: res.data })
+          this.setState({ dataType: type, data: res.data, yearFrom: yF, yearTo: yT })
         })
     } else if (type === 'Precipitation') {
-      getPrecipitation(yearFrom, yearTo)
+      getPrecipitation(yF, yT)
         .then(res => {
-          this.setState({ dataType: type, data: res.data })
+          this.setState({ dataType: type, data: res.data, yearFrom: yF, yearTo: yT })
         })
     }
   }
 
-  handleChange = (event) => {
-    this.setState({ [event.target.name]: parseInt(event.target.value, 10) })
+  handleChange = event => {
+    const value = parseInt(event.target.value, 10) || ''
+    this.setState({ [event.target.name]: value })
+    return new Promise(resolve => resolve())
+  }
+
+  handleSubmit = () => {
+    const {
+      yearFrom,
+      yearTo,
+      dataType
+    } = this.state
+    if (dataType === 'Temperature') {
+      getTemperature(yearFrom, yearTo)
+        .then(res => {
+          this.setState({ dataType, data: res.data })
+        })
+    } else if (dataType === 'Precipitation') {
+      getPrecipitation(yearFrom, yearTo)
+        .then(res => {
+          this.setState({ dataType, data: res.data })
+        })
+    }
   }
 
   render () {
@@ -75,18 +124,26 @@ class Root extends Component {
     } = this.state
     console.log('ROOT RENDER', data, dataType, yearFrom, yearTo)
     return <>
-      <Button
-        onClick={this.onClick.bind(this, 'Temperature')}
-        active={dataType === 'Temperature'}>
-        Temperature
-      </Button>
-      <Button
-        onClick={this.onClick.bind(this, 'Precipitation')}
-        active={dataType === 'Precipitation'}>
-        Precipitation
-      </Button>
-      {/*<input name='yearFrom' type="number" value={this.state.yearFrom} onChange={this.handleChange}/>*/}
-      {/*<input name='yearTo' type="number" value={this.state.yearTo} onChange={this.handleChange}/>*/}
+      <Container>
+        <Wrap>
+          <Button
+            onClick={this.onClick.bind(this, 'Temperature')}
+            active={dataType === 'Temperature'}>
+            Temperature
+          </Button>
+          <Button
+            onClick={this.onClick.bind(this, 'Precipitation')}
+            active={dataType === 'Precipitation'}>
+            Precipitation
+          </Button>
+        </Wrap>
+        <Form
+          onSubmit={this.handleSubmit}
+          onChange={this.handleChange}
+          yearFrom={yearFrom}
+          yearTo={yearTo}
+        />
+      </Container>
       <Canvas data={data} width={800} height={600}/>
     </>
   }

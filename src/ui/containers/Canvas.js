@@ -12,6 +12,17 @@ export default class Canvas extends Component {
     this.updateCanvas()
   }
 
+  shouldComponentUpdate (nextProps, nextState) {
+    const {
+      data: oldData,
+    } = this.props
+    const {
+      data
+    } = nextProps
+
+    return oldData !== data
+  }
+
   drawDash (max, width) {
     const coords = max / 10 > 1
       ? [-30.0, -20.0, -10.0, 0.0, 10.0, 20.0, 30.0, 40.0]
@@ -90,7 +101,7 @@ export default class Canvas extends Component {
       width,
       height
     } = this.props
-    console.log('CANVAS RENDER', this.props.data)
+    // console.log('CANVAS RENDER', this.props.data)
     return <canvas ref="canvas" width={width} height={height}>
       rdxctfvygbhnj
     </canvas>

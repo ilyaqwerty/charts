@@ -31,12 +31,11 @@ export function initializeDB () {
     })
 }
 
-export function getTemperature () {
+export function getTemperature (yearFrom, yearTo) {
   dispatch({
     type: GET_DATA_START
   })
-
-  return D.getTemperature()
+  return D.getTemperature(yearFrom, yearTo)
     .then(data => {
       return dispatch({
         type: GET_DATA_OK,
@@ -51,12 +50,12 @@ export function getTemperature () {
     })
 }
 
-export function getPrecipitation () {
+export function getPrecipitation (yearFrom, yearTo) {
   dispatch({
     type: GET_DATA_START
   })
 
-  return D.getPrecipitation()
+  return D.getPrecipitation(yearFrom, yearTo)
     .then(data => {
       return dispatch({
         type: GET_DATA_OK,

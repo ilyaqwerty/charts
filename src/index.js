@@ -9,6 +9,7 @@ import App from './App';
 const GlobalStyle = createGlobalStyle`
   body {
     font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
+    font-size: 16px;
   };
 
   .flex{

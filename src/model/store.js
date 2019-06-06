@@ -3,7 +3,7 @@ import thunk from 'redux-thunk'
 import logger from 'redux-logger'
 import { data } from './reducers'
 
-const middleware = process.env.NODE_ENV === 'production' ? [thunk] : [thunk, logger]
+const middleware = process.env.NODE_ENV === 'production' ? [thunk] : [thunk]
 
 const init = {
   data: {

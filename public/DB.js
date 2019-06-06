@@ -1,25 +1,42 @@
 const DBName = 'Charts'
 
+let version = 0
 class DB {
-  init () {
-    this.version = 1
-    this.isDataExist = true
+  constructor () {
+    this.version = 0
+    this.Temperature = false
+    this.Precipitation = false
+  }
 
+  checkIfTableExist (table = 'Temperature') {
+    const request = indexedDB.open(DBName)
     return new Promise((resolve, reject) => {
-      this.request = indexedDB.open(DBName, this.version)
-
-      this.request.onupgradeneeded = e => {
-        this.isDataExist = false
+      request.onsuccess = e => {
         this.db = e.target.result
-        const t = this.db.createObjectStore('Temperature')
-        const p = this.db.createObjectStore('Precipitation')
-        /*t.createIndex('year', 'year', { unique: false })
-        p.createIndex('year', 'year', { unique: false })*/
+        version = e.target.result.version
+        const isExist = e.target.result.objectStoreNames.contains(table)
+        !isExist && e.target.result.close()
+        resolve(isExist)
+      }
+      request.onerror = e => this.onError(e)
+    })
+  }
+
+  createTable(table = 'Temperature') {
+    const request = indexedDB.open(DBName, version + 1)
+    return new Promise((resolve, reject) => {
+
+      request.onupgradeneeded = e => {
+        this.db = e.target.result
+        this.db.createObjectStore(table)
       }
 
-      this.request.onsuccess = e => resolve(this.onSuccess(e))
+      request.onsuccess = e => {
+        version = parseInt(e.target.result.version);
+        resolve(this.onSuccess(e))
+      }
 
-      this.request.onerror = e => reject(this.onError(e))
+      request.onerror = e => reject(this.onError(e))
     })
   }
 
@@ -38,6 +55,7 @@ class DB {
       for (let key in data) {
         request.add(data[key], key)
       }
+
       request.onsuccess = e => resolve(this.onSuccess(e, 'set data'))
 
       request.onerror = e => reject(this.onError(e, 'set data'))

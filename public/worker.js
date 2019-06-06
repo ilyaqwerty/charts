@@ -4,6 +4,8 @@ importScripts('DB.js')
 let tPath,
   pPath
 
+const db = new DB()
+
 onmessage = async function (e) {
   const {
     type,
@@ -17,14 +19,13 @@ onmessage = async function (e) {
     pPath = e.data.pPath
   }
 
-  const db = new DB()
-  await db.init()
-
+  const tTable = await db.checkIfTableExist()
   switch (type) {
     case 'init': {
-      if (!db.isDataExist) {
+      if (!tTable) {
         const data = await get(tPath)
           .then(formatData)
+        await db.createTable()
         db.setData(data)
       }
       postMessage(await db.getAllData())
@@ -36,7 +37,7 @@ onmessage = async function (e) {
         yearFrom,
         yearTo
       } = e.data
-      // console.log('getTemperature', yearFrom, yearTo)
+      console.log('getTemperature', yearFrom, yearTo)
       if (yearFrom === 1881 && yearTo === 2006) {
         const data = await db.getAllData()
         postMessage(data)
@@ -52,10 +53,15 @@ onmessage = async function (e) {
         yearFrom,
         yearTo,
       } = e.data
-      // console.log('getPrecipitation', yearFrom, yearTo, pPath)
-      const data = await get(pPath)
-        .then(formatData)
-      db.setData(data, 'Precipitation')
+      console.log('getPrecipitation', yearFrom, yearTo, pPath)
+      const pTable = await db.checkIfTableExist('Precipitation')
+      if (!pTable) {
+        const data = await get(pPath)
+          .then(formatData)
+        await db.createTable('Precipitation')
+        db.setData(data, 'Precipitation')
+      }
+
       if (yearFrom === 1881 && yearTo === 2006) {
         const data = await db.getAllData('Precipitation')
         postMessage(data)

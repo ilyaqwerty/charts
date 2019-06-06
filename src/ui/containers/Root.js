@@ -87,7 +87,7 @@ class Root extends Component {
       </Button>
       {/*<input name='yearFrom' type="number" value={this.state.yearFrom} onChange={this.handleChange}/>*/}
       {/*<input name='yearTo' type="number" value={this.state.yearTo} onChange={this.handleChange}/>*/}
-      <Canvas data={data} width={600} height={600}/>
+      <Canvas data={data} width={800} height={400}/>
     </>
   }
 }

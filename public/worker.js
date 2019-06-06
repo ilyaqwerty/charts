@@ -28,7 +28,7 @@ onmessage = async function (e) {
         await db.createTable()
         db.setData(data)
       }
-      postMessage(await db.getAllData())
+      postMessage(await db.getAllData().then(uniformStep))
       break
     }
 
@@ -39,10 +39,10 @@ onmessage = async function (e) {
       } = e.data
       console.log('getTemperature', yearFrom, yearTo)
       if (yearFrom === 1881 && yearTo === 2006) {
-        const data = await db.getAllData()
+        const data = await db.getAllData().then(uniformStep)
         postMessage(data)
       } else {
-        const data = await db.getData(yearFrom, yearTo)
+        const data = await db.getData(yearFrom, yearTo).then(uniformStep)
         postMessage(data)
       }
       break
@@ -63,10 +63,10 @@ onmessage = async function (e) {
       }
 
       if (yearFrom === 1881 && yearTo === 2006) {
-        const data = await db.getAllData('Precipitation')
+        const data = await db.getAllData('Precipitation').then(uniformStep)
         postMessage(data)
       } else {
-        const data = await db.getData(yearFrom, yearTo, 'Precipitation')
+        const data = await db.getData(yearFrom, yearTo, 'Precipitation').then(uniformStep)
         // console.log(data)
         postMessage(data)
       }

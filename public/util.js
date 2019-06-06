@@ -28,9 +28,19 @@ function formatData (data) {
   return mappedData
 }
 
+function uniformStep (data, step = 120) {
+  return data.reduce((acc, value, index) => {
+    if (index === 0 || index % step === 0) {
+      acc.push(value)
+      return acc
+    } else {
+      return acc
+    }
+  }, [])
+}
+
 function getAverage (data) {
-  let len = data.length
-  return round(data.reduce((acc, v) => acc + v, 0) / len)
+  return round(data.reduce((acc, v) => acc + v, 0) / data.length)
 }
 
 function round (value) {

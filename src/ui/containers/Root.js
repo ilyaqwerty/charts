@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { getTemperature, getPrecipitation, initializeDB } from '../../model/actions'
+import Canvas from './Canvas'
 
 const StyledButton = styled.button`
   font-weight: ${props => props.active ? '700' : 'inherit'}
@@ -25,14 +26,20 @@ class Root extends Component {
       yearTo: 2006
     }
     initializeDB()
-      .then(console.log)
+      .then(res => {
+        this.setState({ data: res.data })
+      })
   }
 
-  static getDerivedStateFromProps (nextProps, prevState) {
-    return {
-      initializing: nextProps.data.initializing,
-      ...prevState
-    }
+  shouldComponentUpdate (nextProps, nextState) {
+    const {
+      data: oldData
+    } = this.state
+    const {
+      data
+    } = nextState
+
+    return oldData !== data
   }
 
   onClick = (type) => {
@@ -41,14 +48,17 @@ class Root extends Component {
       yearFrom,
       yearTo
     } = this.state
+    // console.log('onClick')
     if (type === 'Temperature') {
-      this.setState({dataType: type})
       getTemperature(yearFrom, yearTo)
-        .then(console.log)
+        .then(res => {
+          this.setState({ dataType: type, data: res.data })
+        })
     } else if (type === 'Precipitation') {
-      this.setState({dataType: type})
       getPrecipitation(yearFrom, yearTo)
-        .then(console.log)
+        .then(res => {
+          this.setState({ dataType: type, data: res.data })
+        })
     }
   }
 
@@ -60,14 +70,24 @@ class Root extends Component {
     const {
       dataType,
       yearFrom,
-      yearTo
+      yearTo,
+      data
     } = this.state
-    console.log(dataType, yearFrom, yearTo)
+    console.log('ROOT RENDER', data, dataType, yearFrom, yearTo)
     return <>
-      <Button onClick={this.onClick.bind(this, 'Temperature')} active={dataType === 'Temperature'}>Temperature</Button>
-      <Button onClick={this.onClick.bind(this, 'Precipitation')} active={dataType === 'Precipitation'}>Precipitation</Button>
-      <input name='yearFrom' type="number" value={this.state.yearFrom} onChange={this.handleChange}/>
-      <input name='yearTo' type="number" value={this.state.yearTo} onChange={this.handleChange}/>
+      <Button
+        onClick={this.onClick.bind(this, 'Temperature')}
+        active={dataType === 'Temperature'}>
+        Temperature
+      </Button>
+      <Button
+        onClick={this.onClick.bind(this, 'Precipitation')}
+        active={dataType === 'Precipitation'}>
+        Precipitation
+      </Button>
+      {/*<input name='yearFrom' type="number" value={this.state.yearFrom} onChange={this.handleChange}/>*/}
+      {/*<input name='yearTo' type="number" value={this.state.yearTo} onChange={this.handleChange}/>*/}
+      <Canvas data={data}/>
     </>
   }
 }

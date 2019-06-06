@@ -11,7 +11,6 @@ export default class Canvas extends Component {
       height,
       data
     } = this.props
-    console.log(data)
     if (data) {
       const min = Math.min(...data)
       const max = Math.max(...data)
@@ -26,14 +25,16 @@ export default class Canvas extends Component {
         const y = height - height * 0.8 * (value - min) / (max - min);
 
         ctx.lineTo(x, y)
-
-        ctx.arc(x, y, 4, 0, 2 * Math.PI, false)
+        ctx.stroke()
         ctx.fillText(value, x - 5, y - 5)//текст над точками
+        ctx.beginPath();
+        ctx.moveTo(x,y);
+        ctx.arc(x, y, 4, 0, 2 * Math.PI, false)
+        ctx.closePath();
+        ctx.fill();
       }
       ctx.lineWidth = 1//толщина линии
-      ctx.stroke()
     }
-
   }
 
   render () {

@@ -4,7 +4,6 @@ import { createGlobalStyle } from 'styled-components'
 
 import App from './App';
 
-// styled
 
 const GlobalStyle = createGlobalStyle`
   body {

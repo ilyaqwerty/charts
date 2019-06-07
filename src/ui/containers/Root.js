@@ -25,7 +25,7 @@ class Root extends Component {
       })
   }
 
-  onClick = (type) => {
+  validate () {
     const {
       yearFrom,
       yearTo
@@ -43,16 +43,24 @@ class Root extends Component {
     if (yearTo < yearFrom) {
       yT = yF
     }
+    return {yearFrom: yF, yearTo: yT}
+  }
+
+  onClick = (type) => {
+    const {
+      yearFrom,
+      yearTo
+    } = this.validate()
 
     if (type === 'Temperature') {
-      getTemperature(yF, yT)
+      getTemperature(yearFrom, yearTo)
         .then(res => {
-          this.setState({ dataType: type, data: res.data, yearFrom: yF, yearTo: yT })
+          this.setState({ dataType: type, data: res.data, yearFrom, yearTo })
         })
     } else if (type === 'Precipitation') {
-      getPrecipitation(yF, yT)
+      getPrecipitation(yearFrom, yearTo)
         .then(res => {
-          this.setState({ dataType: type, data: res.data, yearFrom: yF, yearTo: yT })
+          this.setState({ dataType: type, data: res.data, yearFrom, yearTo })
         })
     }
   }
@@ -60,10 +68,10 @@ class Root extends Component {
   handleChange = event => {
     const value = parseInt(event.target.value, 10) || ''
     this.setState({ [event.target.name]: value })
-    return new Promise(resolve => resolve())
   }
 
-  handleSubmit = () => {
+  handleSubmit = event => {
+    event.preventDefault()
     const {
       yearFrom,
       yearTo,
@@ -89,17 +97,19 @@ class Root extends Component {
       yearTo,
       data
     } = this.state
-    console.log('ROOT RENDER', data, dataType, yearFrom, yearTo)
+
+    // console.log('ROOT RENDER', data, dataType, yearFrom, yearTo)
+
     return <>
       <Container>
         <Wrap>
           <Button
-            onClick={this.onClick.bind(this, 'Temperature')}
+            onClick={() => this.onClick('Temperature')}
             active={dataType === 'Temperature'}>
             Temperature
           </Button>
           <Button
-            onClick={this.onClick.bind(this, 'Precipitation')}
+            onClick={() => this.onClick('Precipitation')}
             active={dataType === 'Precipitation'}>
             Precipitation
           </Button>

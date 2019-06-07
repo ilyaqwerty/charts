@@ -80,8 +80,7 @@ export default class Canvas extends Component {
       ctx.clearRect(0, 0, width, height)
       this.drawDash(max, width)
       ctx.beginPath()
-      for (let i = 0; i < data.length; i++) {
-        const value = data[i]
+      data.forEach((value, i) => {
         const x = width * 0.1 + i * xStep
         const y = this.getYpos(value)
         ctx.lineTo(x, y)
@@ -91,7 +90,7 @@ export default class Canvas extends Component {
         ctx.arc(x, y, 2, 0, 2 * Math.PI, false)
         ctx.closePath()
         ctx.fill()
-      }
+      })
       this.drawLabels(xStep)
     }
   }

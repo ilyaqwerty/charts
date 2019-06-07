@@ -24,57 +24,34 @@ export default class Form extends Component {
     return errors
   }
 
-  handleSubmit = event => {
-    event.preventDefault()
-
-    const {
-      onSubmit
-    } = this.props
-
-    const errors = this.validateInputs()
-
-    if (!(errors.yearFrom || errors.yearTo || errors.both)) {
-      onSubmit()
-    }
-  }
-
-  handleChange = async event => {
-    const {
-      onChange
-    } = this.props
-    event.preventDefault()
-
-    await onChange(event)
-    this.validateInputs()
-  }
-
   render () {
     const {
       yearFrom,
       yearTo,
+      onChange,
+      onSubmit
     } = this.props
 
     const errors = this.validateInputs()
     const buttonDisabled = !!(errors.yearFrom || errors.yearTo || errors.both)
-    return <>
-      <StyledForm onSubmit={this.handleSubmit}>
+
+    return <StyledForm onSubmit={onSubmit}>
         <Container>
           <Input
             name='yearFrom'
             value={yearFrom}
-            onChange={this.handleChange}
+            onChange={onChange}
             error={errors.yearFrom}
           />
           <Input
             name='yearTo'
             value={yearTo}
-            onChange={this.handleChange}
+            onChange={onChange}
             error={errors.yearTo}
           />
           <Button type='submit' disabled={buttonDisabled}>Get</Button>
         </Container>
       </StyledForm>
-    </>
   }
 }
 

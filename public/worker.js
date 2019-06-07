@@ -20,6 +20,7 @@ onmessage = async function (e) {
   }
 
   const tTable = await db.checkIfTableExist()
+
   switch (type) {
     case 'init': {
       if (!tTable) {
@@ -28,7 +29,7 @@ onmessage = async function (e) {
         await db.createTable()
         db.setData(data)
       }
-      postMessage(await db.getAllData().then(uniformStep))
+      postMessage(await db.getAllData().then(mapData))
       break
     }
 
@@ -37,14 +38,17 @@ onmessage = async function (e) {
         yearFrom,
         yearTo
       } = e.data
+
       console.log('getTemperature', yearFrom, yearTo)
+
       if (yearFrom === 1881 && yearTo === 2006) {
-        const data = await db.getAllData().then(uniformStep)
+        const data = await db.getAllData().then(mapData)
         postMessage(data)
       } else {
-        const data = await db.getData(yearFrom, yearTo).then(uniformStep)
+        const data = await db.getData(yearFrom, yearTo).then(mapData)
         postMessage(data)
       }
+
       break
     }
 
@@ -53,8 +57,11 @@ onmessage = async function (e) {
         yearFrom,
         yearTo,
       } = e.data
+
       console.log('getPrecipitation', yearFrom, yearTo, pPath)
+
       const pTable = await db.checkIfTableExist('Precipitation')
+
       if (!pTable) {
         const data = await get(pPath)
           .then(formatData)
@@ -63,11 +70,12 @@ onmessage = async function (e) {
       }
 
       if (yearFrom === 1881 && yearTo === 2006) {
-        const data = await db.getAllData('Precipitation').then(uniformStep)
+        const data = await db.getAllData('Precipitation')
+          .then(mapData)
         postMessage(data)
       } else {
-        const data = await db.getData(yearFrom, yearTo, 'Precipitation').then(uniformStep)
-        // console.log(data)
+        const data = await db.getData(yearFrom, yearTo, 'Precipitation')
+          .then(mapData)
         postMessage(data)
       }
       break

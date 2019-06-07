@@ -29,7 +29,7 @@ function formatData (data) {
   return mappedData
 }
 
-function uniformStep (data, step = 12) {
+function mapData (data, step = 12) {
   return data.reduce((acc, value, index) => {
     if (Array.isArray(value)) {
       console.log(index)

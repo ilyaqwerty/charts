@@ -1,4 +1,3 @@
-
 let version = 0
 
 class DB {
@@ -23,7 +22,7 @@ class DB {
     })
   }
 
-  createTable(table = 'Temperature') {
+  createTable (table = 'Temperature') {
     const request = indexedDB.open(this.DBName, version + 1)
     return new Promise((resolve, reject) => {
 
@@ -33,7 +32,7 @@ class DB {
       }
 
       request.onsuccess = e => {
-        version = parseInt(e.target.result.version);
+        version = parseInt(e.target.result.version)
         resolve(this.onSuccess(e))
       }
 

@@ -1,4 +1,3 @@
-
 function get (url) {
   console.log('GET', url)
 

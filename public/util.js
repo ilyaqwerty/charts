@@ -16,7 +16,7 @@ function formatData (data) {
       mappedData[oldKey] = getAverage(mappedData[oldKey])
 
       const key = currentYear + currentMonth
-      if (key in mappedData){
+      if (key in mappedData) {
         mappedData[key].push(value.v)
       } else {
         mappedData[key] = [value.v]

@@ -12,11 +12,11 @@ onmessage = async function (e) {
     type,
   } = e.data
 
-  if(!tPath){
+  if (!tPath) {
     tPath = e.data.tPath
   }
 
-  if(!pPath){
+  if (!pPath) {
     pPath = e.data.pPath
   }
 
@@ -86,6 +86,7 @@ onmessage = async function (e) {
       break
     }
 
-    default: break
+    default:
+      break
   }
 }

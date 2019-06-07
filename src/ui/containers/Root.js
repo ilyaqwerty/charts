@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { getTemperature, getPrecipitation, initializeDB } from '../../model'
 import Canvas from './Canvas'
 import Form from './Form'
-import {Container, Button} from '../styled'
+import { Container, Button } from '../styled'
 
 const Wrap = styled(Container)`
   flex-direction: column;
@@ -42,7 +42,7 @@ export default class Root extends Component {
     if (yearTo < yearFrom) {
       yT = yF
     }
-    return {yearFrom: yF, yearTo: yT}
+    return { yearFrom: yF, yearTo: yT }
   }
 
   onClick = (type) => {

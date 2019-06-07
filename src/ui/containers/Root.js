@@ -4,44 +4,11 @@ import { connect } from 'react-redux'
 import { getTemperature, getPrecipitation, initializeDB } from '../../model/actions'
 import Canvas from './Canvas'
 import Form from './Form'
+import {Container, Button} from '../styled'
 
-const StyledButton = styled.button`
-  outline: none;
-  display: inline-block;
-  padding: .5em 1em;
-  margin: 5px;
-  white-space: nowrap;
-  vertical-align: middle;
-  text-align: center;
-  cursor: pointer;
-  color: black;
-  border-radius: 4px;
-  font-weight: ${props => props.active ? '700' : 'inherit'};
-  background: ${props => props.active ? '#A5C383' : 'transparent'};
-  &:hover{ 
-    background-image: linear-gradient(transparent,rgba(0,0,0,.05) 40%,rgba(0,0,0,.1));
-  }
-`
-const Wrap = styled.div`
-  width: inherit;
-  display: flex;
-  justify-content: center;
+const Wrap = styled(Container)`
   flex-direction: column;
 `
-
-const Container = styled.div`
-  width: inherit;
-  display: flex;
-  justify-content: center;
-`
-
-const Button = props => {
-  return <StyledButton {...props}>{props.children}</StyledButton>
-}
-
-const Input = props => {
-  return <Input {...props} />
-}
 
 class Root extends Component {
   constructor (props) {

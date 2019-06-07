@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { connect } from 'react-redux'
-import { getTemperature, getPrecipitation, initializeDB } from '../../model/actions'
+import { getTemperature, getPrecipitation, initializeDB } from '../../model'
 import Canvas from './Canvas'
 import Form from './Form'
 import {Container, Button} from '../styled'
@@ -10,7 +9,7 @@ const Wrap = styled(Container)`
   flex-direction: column;
 `
 
-class Root extends Component {
+export default class Root extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -20,8 +19,8 @@ class Root extends Component {
       yearTo: 2006
     }
     initializeDB()
-      .then(res => {
-        this.setState({ data: res.data })
+      .then(data => {
+        this.setState({ data })
       })
   }
 
@@ -54,13 +53,13 @@ class Root extends Component {
 
     if (type === 'Temperature') {
       getTemperature(yearFrom, yearTo)
-        .then(res => {
-          this.setState({ dataType: type, data: res.data, yearFrom, yearTo })
+        .then(data => {
+          this.setState({ dataType: type, data, yearFrom, yearTo })
         })
     } else if (type === 'Precipitation') {
       getPrecipitation(yearFrom, yearTo)
-        .then(res => {
-          this.setState({ dataType: type, data: res.data, yearFrom, yearTo })
+        .then(data => {
+          this.setState({ dataType: type, data, yearFrom, yearTo })
         })
     }
   }
@@ -79,13 +78,13 @@ class Root extends Component {
     } = this.state
     if (dataType === 'Temperature') {
       getTemperature(yearFrom, yearTo)
-        .then(res => {
-          this.setState({ dataType, data: res.data })
+        .then(data => {
+          this.setState({ dataType, data })
         })
     } else if (dataType === 'Precipitation') {
       getPrecipitation(yearFrom, yearTo)
-        .then(res => {
-          this.setState({ dataType, data: res.data })
+        .then(data => {
+          this.setState({ dataType, data })
         })
     }
   }
@@ -125,5 +124,3 @@ class Root extends Component {
     </>
   }
 }
-
-export default connect(({ data }) => ({ data }))(Root)

@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { createGlobalStyle } from 'styled-components'
 
-import App from './App';
+import {Root} from './ui/containers'
 
 
 const GlobalStyle = createGlobalStyle`
@@ -23,6 +23,6 @@ const GlobalStyle = createGlobalStyle`
 `
 
 ReactDOM.render(<>
-    <App />
+    <Root />
     <GlobalStyle />
 </>, document.getElementById('root'));

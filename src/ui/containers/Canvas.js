@@ -1,4 +1,9 @@
 import React, { Component } from 'react'
+import styled from 'styled-components'
+
+const StyledCanvas = styled.canvas`
+  border: 1px solid black;
+`
 
 export default class Canvas extends Component {
   componentDidMount () {
@@ -101,8 +106,8 @@ export default class Canvas extends Component {
       height
     } = this.props
     // console.log('CANVAS RENDER', this.props.data)
-    return <canvas ref="canvas" width={width} height={height}>
+    return <StyledCanvas ref="canvas" width={width} height={height}>
       rdxctfvygbhnj
-    </canvas>
+    </StyledCanvas>
   }
 }

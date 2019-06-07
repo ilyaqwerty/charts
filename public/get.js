@@ -1,5 +1,5 @@
-export function get (url, data, ...rest) {
-  console.log('GET', url, data, rest)
+function get (url) {
+  console.log('GET', url)
 
   const GET = {
     method: 'GET'

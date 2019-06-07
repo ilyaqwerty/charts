@@ -1,16 +1,14 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react'
+import ReactDOM from 'react-dom'
 import { createGlobalStyle } from 'styled-components'
 
-import App from './App';
-
-// styled
+import { Root } from './ui/containers'
 
 const GlobalStyle = createGlobalStyle`
   body {
     font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
     font-size: 16px;
-  };
+  }
 
   .flex{
       box-shadow: none!important;
@@ -24,6 +22,6 @@ const GlobalStyle = createGlobalStyle`
 `
 
 ReactDOM.render(<>
-    <App />
-    <GlobalStyle />
-</>, document.getElementById('root'));
+  <Root/>
+  <GlobalStyle/>
+</>, document.getElementById('root'))

@@ -1,4 +1,9 @@
 import React, { Component } from 'react'
+import styled from 'styled-components'
+
+const StyledCanvas = styled.canvas`
+  border: 1px solid black;
+`
 
 export default class Canvas extends Component {
   componentDidMount () {
@@ -80,8 +85,7 @@ export default class Canvas extends Component {
       ctx.clearRect(0, 0, width, height)
       this.drawDash(max, width)
       ctx.beginPath()
-      for (let i = 0; i < data.length; i++) {
-        const value = data[i]
+      data.forEach((value, i) => {
         const x = width * 0.1 + i * xStep
         const y = this.getYpos(value)
         ctx.lineTo(x, y)
@@ -91,7 +95,7 @@ export default class Canvas extends Component {
         ctx.arc(x, y, 2, 0, 2 * Math.PI, false)
         ctx.closePath()
         ctx.fill()
-      }
+      })
       this.drawLabels(xStep)
     }
   }
@@ -102,8 +106,8 @@ export default class Canvas extends Component {
       height
     } = this.props
     // console.log('CANVAS RENDER', this.props.data)
-    return <canvas ref="canvas" width={width} height={height}>
+    return <StyledCanvas ref="canvas" width={width} height={height}>
       rdxctfvygbhnj
-    </canvas>
+    </StyledCanvas>
   }
 }

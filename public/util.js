@@ -16,7 +16,7 @@ function formatData (data) {
       mappedData[oldKey] = getAverage(mappedData[oldKey])
 
       const key = currentYear + currentMonth
-      if (key in mappedData){
+      if (key in mappedData) {
         mappedData[key].push(value.v)
       } else {
         mappedData[key] = [value.v]
@@ -29,7 +29,7 @@ function formatData (data) {
   return mappedData
 }
 
-function uniformStep (data, step = 12) {
+function mapData (data, step = 12) {
   return data.reduce((acc, value, index) => {
     if (Array.isArray(value)) {
       console.log(index)

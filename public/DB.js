@@ -1,15 +1,15 @@
-const DBName = 'Charts'
-
 let version = 0
+
 class DB {
   constructor () {
+    this.DBName = 'Charts'
     this.version = 0
     this.Temperature = false
     this.Precipitation = false
   }
 
   checkIfTableExist (table = 'Temperature') {
-    const request = indexedDB.open(DBName)
+    const request = indexedDB.open(this.DBName)
     return new Promise((resolve, reject) => {
       request.onsuccess = e => {
         this.db = e.target.result
@@ -22,8 +22,8 @@ class DB {
     })
   }
 
-  createTable(table = 'Temperature') {
-    const request = indexedDB.open(DBName, version + 1)
+  createTable (table = 'Temperature') {
+    const request = indexedDB.open(this.DBName, version + 1)
     return new Promise((resolve, reject) => {
 
       request.onupgradeneeded = e => {
@@ -32,7 +32,7 @@ class DB {
       }
 
       request.onsuccess = e => {
-        version = parseInt(e.target.result.version);
+        version = parseInt(e.target.result.version)
         resolve(this.onSuccess(e))
       }
 
@@ -52,6 +52,7 @@ class DB {
   setData (data, table = 'Temperature') {
     const request = this.db.transaction(table, 'readwrite').objectStore(table)
     return new Promise((resolve, reject) => {
+
       for (let key in data) {
         request.add(data[key], key)
       }

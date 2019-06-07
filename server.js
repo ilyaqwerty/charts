@@ -1,12 +1,16 @@
-const express = require('express');
-const favicon = require('express-favicon');
-const path = require('path');
-const port = process.env.PORT || 8080;
+import express from 'express'
+import cors from 'cors'
+import path from 'path'
+import favicon from 'express-favicon'
+
+const PORT = process.env.PORT || 8000;
+
 const app = express();
 app.use(favicon(__dirname + '/build/favicon.ico'));
-// the __dirname is the current directory from where the script is running
+
 app.use(express.static(__dirname));
 app.use(express.static(path.join(__dirname, 'build')));
+app.use(cors({origin: true, credentials: true}));
 
 app.get('/ping', function (req, res) {
   return res.send('pong');
@@ -17,12 +21,11 @@ app.get('/', function (req, res) {
 });
 
 app.get('/temperature', (req, res) => {
-  res.status(200).send(temperature)
+  res.status(200).sendFile(path.join(__dirname, 'build', 'temperature.json'))
 });
 
 app.get('/precipitation', (req, res) => {
-  res.status(200).send(precipitation)
+  res.status(200).sendFile(path.join(__dirname, 'build', 'precipitation.json'))
 });
 
-app.listen(port);
-
+app.listen(PORT, () => console.info(`Server has started on ${PORT}`));

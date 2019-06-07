@@ -31,11 +31,11 @@ export default class Root extends Component {
     } = this.state
     let yF = yearFrom
     let yT = yearTo
-    if (yearFrom < 1881) {
+    if (yearFrom < 1881 || yearFrom > 2006) {
       yF = 1881
     }
 
-    if (yearTo > 2006) {
+    if (yearTo > 2006 || yearTo < 1881) {
       yT = 2006
     }
 

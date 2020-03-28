@@ -1,3 +1,4 @@
+/* eslint-disable */
 let version = 0
 
 class DB {

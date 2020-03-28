@@ -1,3 +1,4 @@
+/* eslint-disable */
 function formatData (data) {
   let year = '1881',
     month = '01'

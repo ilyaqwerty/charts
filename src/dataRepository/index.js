@@ -1,5 +1,5 @@
-const TEMPERATURE_PATH = process.env.REACT_APP_TEMPERATURE_PATH
-const PRECIPITATION_PATH = process.env.REACT_APP_PRECIPITATION_PATH
+const TEMPERATURE_PATH = process.env.TEMPERATURE_PATH
+const PRECIPITATION_PATH = process.env.PRECIPITATION_PATH
 
 export default class Data {
   constructor () {

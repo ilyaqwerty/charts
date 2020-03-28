@@ -1,3 +1,4 @@
+/* eslint-disable */
 function get (url) {
   console.log('GET', url)
 

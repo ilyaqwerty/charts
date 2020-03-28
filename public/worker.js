@@ -1,3 +1,4 @@
+/* eslint-disable */
 importScripts('util.js')
 importScripts('DB.js')
 importScripts('get.js')

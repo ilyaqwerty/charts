@@ -4,10 +4,10 @@
   "description": "",
   "private": true,
   "scripts": {
-    "start-dev": "NODE_ENV=development webpack-dev-server",
+    "start:client": "NODE_ENV=development webpack-dev-server",
     "build": "NODE_ENV=production webpack",
-    "start-server": "nodemon -r dotenv/config server.js",
-    "start":  "node -r dotenv/config server.js"
+    "start:server": "NODE_ENV=production nodemon -r dotenv/config server.js",
+    "start":  "NODE_ENV=production node -r dotenv/config server.js"
   },
   "author": "",
   "license": "ISC",

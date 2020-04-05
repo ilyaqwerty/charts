@@ -3,7 +3,7 @@ const cors = require('cors')
 const path = require('path')
 
 const PORT = process.env.PORT || 8000;
-const dist = 'dist';
+const dist = process.env.NODE_ENV === 'production' ? 'dist' : 'public';
 
 const app = express();
 

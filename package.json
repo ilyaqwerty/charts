@@ -6,8 +6,8 @@
   "scripts": {
     "start:client": "NODE_ENV=development webpack-dev-server",
     "build": "NODE_ENV=production webpack",
-    "start:server": "NODE_ENV=production nodemon -r dotenv/config server.js",
-    "start":  "NODE_ENV=production node -r dotenv/config server.js"
+    "start:server": "NODE_ENV=development nodemon server.js",
+    "start":  "NODE_ENV=production node server.js"
   },
   "author": "",
   "license": "ISC",
@@ -30,12 +30,12 @@
     "terser-webpack-plugin": "^2.3.5",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3"
+    "webpack-dev-server": "^3.10.3",
+    "nodemon": "^2.0.2"
   },
   "dependencies": {
     "@babel/polyfill": "^7.8.7",
     "cors": "^2.8.5",
-    "dotenv": "^8.2.0",
     "dotenv-webpack": "^1.7.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

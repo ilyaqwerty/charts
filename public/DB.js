@@ -1,5 +1,4 @@
 /* eslint-disable */
-let version = 0
 
 class DB {
   constructor () {
@@ -14,7 +13,7 @@ class DB {
     return new Promise((resolve, reject) => {
       request.onsuccess = e => {
         this.db = e.target.result
-        version = e.target.result.version
+        this.version = e.target.result.version
         const isExist = e.target.result.objectStoreNames.contains(table)
         !isExist && e.target.result.close()
         resolve(isExist)
@@ -24,16 +23,16 @@ class DB {
   }
 
   createTable (table = 'Temperature') {
-    const request = indexedDB.open(this.DBName, version + 1)
-    return new Promise((resolve, reject) => {
+    const request = indexedDB.open(this.DBName, this.version + 1)
 
+    return new Promise((resolve, reject) => {
       request.onupgradeneeded = e => {
         this.db = e.target.result
         this.db.createObjectStore(table)
       }
 
       request.onsuccess = e => {
-        version = parseInt(e.target.result.version)
+        this.version = parseInt(e.target.result.version)
         resolve(this.onSuccess(e))
       }
 

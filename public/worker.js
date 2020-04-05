@@ -8,7 +8,7 @@ let tPath,
 
 const db = new DB()
 
-onmessage = async function (e) {
+onmessage = async function dbConnect (e) {
   const {
     type,
   } = e.data

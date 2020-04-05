@@ -21,7 +21,9 @@ module.exports = {
     hot: isDev
   },
   plugins: [
-    new Dotenv(),
+    new Dotenv({
+      path: isDev ? getPath('.env') : getPath('.env.production'),
+    }),
     new HTMLWebpackPlugin({
       template: './public/index.html',
       minify: {
